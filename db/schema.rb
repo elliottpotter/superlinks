@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_25_014002) do
+ActiveRecord::Schema.define(version: 2020_06_25_015356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "link_clicks", force: :cascade do |t|
+    t.bigint "link_id", null: false
+    t.string "user_agent"
+    t.string "ip"
+    t.json "ip_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["link_id"], name: "index_link_clicks_on_link_id"
+  end
 
   create_table "links", force: :cascade do |t|
     t.string "name"
@@ -21,6 +31,7 @@ ActiveRecord::Schema.define(version: 2020_06_25_014002) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "email"
     t.index ["user_id"], name: "index_links_on_user_id"
   end
 
@@ -32,5 +43,6 @@ ActiveRecord::Schema.define(version: 2020_06_25_014002) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "link_clicks", "links"
   add_foreign_key "links", "users"
 end
